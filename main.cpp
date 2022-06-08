@@ -6,10 +6,10 @@
 #include <iostream>
 
 int main() {
-	std::stack<int> a;
+	ft::stack<int> a;
 	ft::stack<int> b;
 
-	a.push(3);
-	b.push(2);
-	std::cout << b << std::endl;
+	a.push(2);
+	b.push(3);
+	std::cout << (b == a) << std::endl;
 }

@@ -4,5 +4,3 @@
 
 #include "stack.hpp"
 
-template<typename T>
-ft::stack<T>::

@@ -2,6 +2,7 @@ CC		=	c++
 RM		=	rm -f
 CFLAGS	=	-std=c++98 -Wall -Wextra -Werror
 NAME	=	containers
+INCL	=	stack.hpp
 SRCS	=	main.cpp
 
 OBJS	=	$(patsubst %.cpp, %.o, $(SRCS))
@@ -13,7 +14,7 @@ $(NAME):	$(OBJS)
 			@$(CC) -o $(NAME) $(OBJS)
 			@echo "$(NAME) is ready to use ✅ "
 
-%.o:		%.cpp Makefile
+%.o:		%.cpp Makefile $(INCL)
 			@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
