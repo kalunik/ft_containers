@@ -2,7 +2,9 @@ CC		=	c++
 RM		=	rm -f
 CFLAGS	=	-std=c++98 -Wall -Wextra -Werror
 NAME	=	containers
-INCL	=	stack.hpp
+INCL	=	stack.hpp \
+			vector.hpp
+
 SRCS	=	main.cpp
 
 OBJS	=	$(patsubst %.cpp, %.o, $(SRCS))

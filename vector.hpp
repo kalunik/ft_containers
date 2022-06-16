@@ -25,22 +25,41 @@ namespace ft{
 //		typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
 	protected:
-		T*		_data;
-		size_t	_size;
-		size_t	_capacity;
+		T*				_data;
+		size_t			_size;
+		size_t			_capacity;
+		allocator_type	_alloc;
 
 	public:
-		explicit vector(const allocator_type& alloc = allocator_type()) {
-			reAlloc(2);
+		explicit vector(const allocator_type& alloc = allocator_type()) :
+		_size(0), _capacity(0), _alloc(alloc) {
+			resize(2);
 		}
-		explicit vector(size_type n, const value_type& val = value_type(),
+		/*explicit vector(size_type n, const value_type& val = value_type(),
 						const allocator_type& alloc = allocator_type());
 		template<class InputIterator>
 				vector(InputIterator first, InputIterator last,
-					   const allocator_type& alloc = allocator_type());
-		vector (const vector& x);
-		~vector();
-		vector& operator= (const vector& x);
+					   const allocator_type& alloc = allocator_type());*/
+		vector(const vector& x) {
+			this = x;
+		}
+		~vector() {
+			for (size_t i = 0; i < _capacity; i++) {
+				_alloc.destroy(_data);
+			}
+
+			_alloc.deallocate(_data, _capacity);
+		}
+
+		/** @warning May not work properly !!! */
+		vector& operator= (const vector& x) {
+			if (this != &x) {
+				_size = x._size;
+				_capacity = x._capacity;
+				// ? how to move _data and _alloc
+			}
+			return *this;
+		}
 
 		/* * ELEMENT ACCESS */
 		reference operator[] (size_type n);
@@ -49,31 +68,49 @@ namespace ft{
 		/* * MODIFIERS */
 		void push_back(const value_type& val) {
 			if (_size >= _capacity)
-				reAlloc(_capacity + _capacity/2);
+				resize(_capacity + _capacity/2);
 
 			_data[_size] = val;
 			_size++;
 		}
+		void pop_back() {
+			if (_size > 0) {
+				_size--;
+				_data[_size].~T();
+			}
+		}
+
 
 		/* * CAPACITY */
 		size_t size() const { return _size; }
+		size_type max_size() const { return sizeof(T); }
+		void resize(size_t newCapacity, value_type val = value_type()) {
+			T* newData = _alloc.allocate(newCapacity);
 
-	private:
-		/* * UTILS */
-		void reAlloc(size_t newCapacity) {
-			T* newData = new T[newCapacity];
+			for (size_t i = 0; i < newCapacity; i++) {
+				_alloc.construct(newData, val);
+			}
 
-			if (newCapacity < _capacity)
+			// * first param – forward_iterator; if I use this `val` is unused
+//			std::uninitialized_fill_n(newData, newCapacity, T());
+
+			size_t	oldCapacity = _capacity;
+			if (newCapacity < _capacity) {
 				_capacity = newCapacity;
+			}
 
 			for (size_t i = 0; i < _capacity; i++) {
 				newData[i] = _data[i];
+				_alloc.destroy(_data + i); // ? maybe there is no need
 			}
 
-			delete[] _data;
+			_alloc.deallocate(_data, oldCapacity);
 			_data = newData;
 			_capacity = newCapacity;
 		}
+		size_type capacity() const { return _capacity; }
+
+
 	};
 }
 
