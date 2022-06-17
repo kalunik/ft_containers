@@ -6,13 +6,15 @@
 #define FT_CONTAINERS_VECTOR_HPP
 
 #include <memory>
+#include <stdexcept>
 
 namespace ft{
 	template<class T, class Allocator = std::allocator<T> >
 	class vector {
 	public:
-		typedef T                                        value_type;
 		typedef Allocator                                allocator_type;
+	protected:
+		typedef T                                        value_type;
 		typedef typename allocator_type::reference       reference;
 		typedef typename allocator_type::const_reference const_reference;
 //		typedef implementation-defined                   iterator;
@@ -24,7 +26,8 @@ namespace ft{
 //		typedef std::reverse_iterator<iterator>          reverse_iterator;
 //		typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
-	protected:
+		pointer											_begin;
+
 		T*				_data;
 		size_t			_size;
 		size_t			_capacity;
@@ -33,7 +36,7 @@ namespace ft{
 	public:
 		explicit vector(const allocator_type& alloc = allocator_type()) :
 		_size(0), _capacity(0), _alloc(alloc) {
-			resize(2);
+			reserve(2); // * original vector doesn't use this
 		}
 		/*explicit vector(size_type n, const value_type& val = value_type(),
 						const allocator_type& alloc = allocator_type());
@@ -56,19 +59,48 @@ namespace ft{
 			if (this != &x) {
 				_size = x._size;
 				_capacity = x._capacity;
-				// ? how to move _data and _alloc
+				// ? how to move `_data` and `_alloc`
 			}
 			return *this;
 		}
 
 		/* * ELEMENT ACCESS */
-		reference operator[] (size_type n);
-		const_reference operator[] (size_type n) const;
+		reference operator[] (size_type n) {
+//			assert(n < size());
+			return _data[n];
+		}
+		const_reference operator[] (size_type n) const {
+//			assert(n < size());
+			return _data[n];
+		}
+		reference at (size_type n) {
+			if (n >= size())
+				throw std::out_of_range("vector");
+			return _data[n];
+		}
+		const_reference at (size_type n) const {
+			if (n >= size())
+				throw std::out_of_range("vector");
+			return _data[n];
+		}
+		reference front() {
+			return _data[0]; // ! orig : segfault if obj is empty(); mine: 0(ub)
+		}
+		const_reference front() const {
+			return _data[0];
+		}
+		reference end() {
+			return _data[size()-1];
+			// ! orig : segfault if obj is empty(); mine: 0(ub)
+		}
+		const_reference end() const {
+			return _data[size()-1];
+		}
 
 		/* * MODIFIERS */
 		void push_back(const value_type& val) {
 			if (_size >= _capacity)
-				resize(_capacity + _capacity/2);
+				reserve(_capacity + _capacity / 2);
 
 			_data[_size] = val;
 			_size++;
@@ -84,29 +116,27 @@ namespace ft{
 		/* * CAPACITY */
 		size_t size() const { return _size; }
 		size_type max_size() const { return sizeof(T); }
-		void resize(size_t newCapacity, value_type val = value_type()) {
-			T* newData = _alloc.allocate(newCapacity);
+		void reserve(size_t n) {
+			T* newData = _alloc.allocate(n);
 
-			for (size_t i = 0; i < newCapacity; i++) {
-				_alloc.construct(newData, val);
-			}
-
-			// * first param – forward_iterator; if I use this `val` is unused
-//			std::uninitialized_fill_n(newData, newCapacity, T());
+			std::uninitialized_fill_n(newData, n, T());
 
 			size_t	oldCapacity = _capacity;
-			if (newCapacity < _capacity) {
-				_capacity = newCapacity;
+			if (n < _capacity) {
+				_capacity = n;
 			}
 
 			for (size_t i = 0; i < _capacity; i++) {
 				newData[i] = _data[i];
-				_alloc.destroy(_data + i); // ? maybe there is no need
+//				_alloc.destroy(_data + i); // ? maybe there is no need
 			}
 
-			_alloc.deallocate(_data, oldCapacity);
+			if (oldCapacity > 0) {
+				_alloc.deallocate(_data, oldCapacity);
+				// ? it dealloc even oldCap is 0
+			}
 			_data = newData;
-			_capacity = newCapacity;
+			_capacity = n;
 		}
 		size_type capacity() const { return _capacity; }
 

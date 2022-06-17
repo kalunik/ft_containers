@@ -1,6 +1,8 @@
 CC		=	c++
 RM		=	rm -f
-CFLAGS	=	-std=c++98 -Wall -Wextra -Werror
+CFLAGS	=	-I./ -std=c++98 -Wall -Wextra -Werror -ggdb3
+LEAKS	=	leaks
+LKFLAG	=	-atExit --
 NAME	=	containers
 INCL	=	stack.hpp \
 			vector.hpp
@@ -31,5 +33,8 @@ re:			fclean all
 
 run:		all
 			./$(NAME)
+
+leaks:		all
+			$(LEAKS) $(LKFLAG) ./$(NAME)
 
 .PHONY: all bonus clean fclean re run
