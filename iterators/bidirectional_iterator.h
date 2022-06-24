@@ -16,7 +16,7 @@ public:
 	typedef typename ft::iterator_traits<T*>::reference			reference;
 	typedef typename ft::iterator_traits<T*>::iterator_category	iterator_category;
 
-	BidirectIter(pointer ptr) { };
+	BidirectIter(pointer ptr) {};
 };
 
 #endif //FT_CONTAINERS_BIDIRECTIONAL_ITERATOR_H
