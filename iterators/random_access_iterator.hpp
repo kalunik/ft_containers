@@ -38,6 +38,47 @@ public:
 	bool operator!=(const RandomIter<value_type> &rhs) const {
 		return (_ptr !=	rhs._ptr); }
 
+	reference operator*() const {
+		return *_ptr;
+	}
+	reference operator->() const {
+		return _ptr;
+	}
+
+	RandomIter& operator++() {
+		++_ptr;
+		return *this;
+	}
+	RandomIter operator++(int) {
+		RandomIter tmp(*this);
+		++_ptr; //difference w/h ++(*ptr);
+		return tmp;
+	}
+
+	RandomIter& operator--() {
+		--_ptr;
+		return *this;
+	}
+	RandomIter operator--(int) {
+		RandomIter tmp(*this);
+		--_ptr; //difference w/h ++(*ptr);
+		return tmp;
+	}
+
+	RandomIter operator+(difference_type n) const {
+		RandomIter tmp = *this;
+		return tmp + n;
+	}
+	RandomIter operator-(difference_type n) {
+		RandomIter tmp = *this;
+		return tmp - n;
+	}
+	difference_type operator-(const RandomIter &rhs) const {
+		return _ptr - rhs._ptr;
+	}
+
+
+
 
 //	RandomIter<T>& operator
 
