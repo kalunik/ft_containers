@@ -77,6 +77,34 @@ public:
 		return _ptr - rhs._ptr;
 	}
 
+	bool operator<(const RandomIter &rhs) const {
+//		return _ptr < rhs._ptr;
+		return (rhs._ptr - _ptr) > 0;
+	}
+	bool operator>(const RandomIter &rhs) const {
+		return operator<(rhs);
+	}
+	bool operator>=(const RandomIter &rhs) const {
+		return !operator<(rhs);
+	}
+	bool operator<=(const RandomIter &rhs) const {
+		return !operator>(rhs);
+	}
+
+	RandomIter& operator+=(difference_type n) const {
+		_ptr += n;
+		return *this;
+	}
+	RandomIter& operator-=(difference_type n) const {
+		_ptr -= n;
+		return *this;
+	}
+
+	reference operator[](difference_type n) const {
+		return *(_ptr + n);
+	}
+
+
 
 
 

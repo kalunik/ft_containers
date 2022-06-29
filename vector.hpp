@@ -7,26 +7,27 @@
 
 #include <memory>
 #include <stdexcept>
+#include "iterators/random_access_iterator.hpp"
 
 namespace ft{
 	template<class T, class Allocator = std::allocator<T> >
 	class vector {
 	public:
-		typedef Allocator                                allocator_type;
-	protected:
-		typedef T                                        value_type;
-		typedef typename allocator_type::reference       reference;
-		typedef typename allocator_type::const_reference const_reference;
-//		typedef implementation-defined                   iterator;
+		typedef Allocator									allocator_type;
+
+		typedef T											value_type;
+		typedef typename allocator_type::reference			reference;
+		typedef typename allocator_type::const_reference	const_reference;
+		typedef RandomIter<T>								iterator;
 //		typedef implementation-defined                   const_iterator;
-		typedef typename allocator_type::size_type       size_type;
-		typedef typename allocator_type::difference_type difference_type;
-		typedef typename allocator_type::pointer         pointer;
-		typedef typename allocator_type::const_pointer   const_pointer;
+		typedef typename allocator_type::size_type			size_type;
+		typedef typename allocator_type::difference_type	difference_type;
+		typedef typename allocator_type::pointer			pointer;
+		typedef typename allocator_type::const_pointer		const_pointer;
 //		typedef std::reverse_iterator<iterator>          reverse_iterator;
 //		typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
-		pointer											_begin;
+		pointer												_begin;
 
 		T*				_data;
 		size_t			_size;
@@ -65,14 +66,6 @@ namespace ft{
 		}
 
 		/* * ELEMENT ACCESS */
-		reference operator[] (size_type n) {
-//			assert(n < size());
-			return _data[n];
-		}
-		const_reference operator[] (size_type n) const {
-//			assert(n < size());
-			return _data[n];
-		}
 		reference at (size_type n) {
 			if (n >= size())
 				throw std::out_of_range("vector");
@@ -83,19 +76,30 @@ namespace ft{
 				throw std::out_of_range("vector");
 			return _data[n];
 		}
+		reference operator[] (size_type n) {
+//			assert(n < size());
+			return _data[n];
+		}
+		const_reference operator[] (size_type n) const {
+//			assert(n < size());
+			return _data[n];
+		}
 		reference front() {
 			return _data[0]; // ! orig : segfault if obj is empty(); mine: 0(ub)
 		}
 		const_reference front() const {
 			return _data[0];
 		}
-		reference end() {
+		reference back() {
 			return _data[size()-1];
 			// ! orig : segfault if obj is empty(); mine: 0(ub)
 		}
-		const_reference end() const {
+		const_reference back() const {
 			return _data[size()-1];
 		}
+
+		/* * ITERATORS */
+
 
 		/* * MODIFIERS */
 		void push_back(const value_type& val) {
