@@ -19,7 +19,7 @@ namespace ft{
 		typedef typename allocator_type::reference			reference;
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef RandomIter<T>								iterator;
-//		typedef implementation-defined                   const_iterator;
+		typedef RandomIter<const T>							const_iterator;
 		typedef typename allocator_type::size_type			size_type;
 		typedef typename allocator_type::difference_type	difference_type;
 		typedef typename allocator_type::pointer			pointer;
@@ -27,9 +27,8 @@ namespace ft{
 //		typedef std::reverse_iterator<iterator>          reverse_iterator;
 //		typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
 
-		pointer												_begin;
-
-		T*				_data;
+	protected:
+		pointer			_data;
 		size_t			_size;
 		size_t			_capacity;
 		allocator_type	_alloc;
@@ -99,7 +98,18 @@ namespace ft{
 		}
 
 		/* * ITERATORS */
-
+		iterator begin() {
+			return iterator(_data);
+		}
+		const_iterator begin() const {
+			return const_iterator(_data);
+		}
+		iterator end() {
+			return iterator(_data + _size);
+		}
+		const_iterator end() const {
+			return const_iterator(_data + _size);
+		}
 
 		/* * MODIFIERS */
 		void push_back(const value_type& val) {
