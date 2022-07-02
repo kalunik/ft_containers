@@ -9,8 +9,9 @@
 #include <iterator>
 
 namespace ft {
+
 	template<typename Iter>
-	struct iterator_traits {
+	struct iterator_traits<Iter> {
 		typedef typename Iter::difference_type		difference_type;
 		typedef typename Iter::value_type			value_type;
 		typedef typename Iter::pointer				pointer;

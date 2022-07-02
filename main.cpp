@@ -4,9 +4,10 @@
 #include "vector.hpp"
 #include <vector>
 #include <iostream>
+#include <map>
+#include <iterator>
 
 int main() {
-
 	std::vector<int> a(4);
 //	std::vector<int>::iterator::
 	//	a.push_back(2);
@@ -19,7 +20,7 @@ int main() {
 
 //	b.push(3);
 
-	std::vector<int>::iterator it;
+	typedef std::vector<int>::iterator it;
 	it++;
 	std::cout << a.capacity() << " | " << a.size() << std::endl;
 	try {
