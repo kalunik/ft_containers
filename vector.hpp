@@ -19,8 +19,8 @@ namespace ft{
 		typedef T											value_type;
 		typedef typename allocator_type::reference			reference;
 		typedef typename allocator_type::const_reference	const_reference;
-		typedef ft::RandomIter<T>								iterator;
-		typedef ft::RandomIter<const T>							const_iterator;
+		typedef ft::RandomIter<T>							iterator;
+		typedef ft::RandomIter<const T>						const_iterator;
 		typedef typename allocator_type::size_type			size_type;
 		typedef typename allocator_type::difference_type	difference_type;
 		typedef typename allocator_type::pointer			pointer;
@@ -127,9 +127,9 @@ namespace ft{
 		/* * MODIFIERS */
 //		template <class InputIterator>
 //		void assign (InputIterator first, InputIterator last)
-		void assign (size_type n, const value_type& val) {
-			
-		}
+//		void assign (size_type n, const value_type& val) {
+//
+//		}
 		void push_back(const value_type& val) {
 			if (_size >= _capacity)
 				reserve(_capacity + _capacity / 2);
@@ -143,11 +143,32 @@ namespace ft{
 				_data[_size].~T();
 			}
 		}
+//		iterator insert (iterator position, const value_type& val);
+//
+//		void insert (iterator position, size_type n, const value_type& val);
+//
+//		template <class InputIterator>
+//		void insert (iterator position, InputIterator first, InputIterator last);
 
+//		iterator erase (iterator position);
+//		iterator erase (iterator first, iterator last);
+		void swap( vector& other ) {
+
+		}
+		void clear() {
+			for (;_size > 0;) {
+				pop_back();
+			}
+		}
 
 		/* * CAPACITY */
 		size_t size() const { return _size; }
 		size_type max_size() const { return sizeof(T); }
+		void resize (size_type n, value_type val = value_type()) {
+			if (n < _size) {
+
+			}
+		}
 		void reserve(size_t n) {
 			T* newData = _alloc.allocate(n);
 
