@@ -5,7 +5,11 @@ LEAKS	=	leaks
 LKFLAG	=	-atExit --
 NAME	=	containers
 INCL	=	stack.hpp \
-			vector.hpp
+			vector.hpp \
+			iterators/bidirectional_iterator.h \
+			iterators/iterator_traits.hpp \
+			iterators/random_access_iterator.hpp \
+			iterators/reverse_iter.hpp
 
 SRCS	=	main.cpp
 

@@ -11,7 +11,7 @@
 namespace ft {
 
 	template<typename Iter>
-	struct iterator_traits<Iter> {
+	struct iterator_traits {
 		typedef typename Iter::difference_type		difference_type;
 		typedef typename Iter::value_type			value_type;
 		typedef typename Iter::pointer				pointer;

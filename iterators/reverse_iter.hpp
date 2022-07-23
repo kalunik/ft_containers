@@ -86,27 +86,39 @@ namespace ft {
 
 	template <class Iterator>
 	bool operator== (const reverse_iterator<Iterator>& lhs,
-					 const reverse_iterator<Iterator>& rhs);
+					 const reverse_iterator<Iterator>& rhs) {
+		return lhs.base() == rhs.base();
+	}
 
 	template <class Iterator>
 	bool operator!= (const reverse_iterator<Iterator>& lhs,
-					 const reverse_iterator<Iterator>& rhs);
+					 const reverse_iterator<Iterator>& rhs) {
+		return lhs.base() != rhs.base();
+	}
 
 	template <class Iterator>
 	bool operator<  (const reverse_iterator<Iterator>& lhs,
-					 const reverse_iterator<Iterator>& rhs);
+					 const reverse_iterator<Iterator>& rhs) {
+		return lhs.base() > rhs.base();
+	}
 
 	template <class Iterator>
 	bool operator<= (const reverse_iterator<Iterator>& lhs,
-					 const reverse_iterator<Iterator>& rhs);
+					 const reverse_iterator<Iterator>& rhs) {
+		return lhs.base() >= rhs.base();
+	}
 
 	template <class Iterator>
 	bool operator>  (const reverse_iterator<Iterator>& lhs,
-					 const reverse_iterator<Iterator>& rhs);
+					 const reverse_iterator<Iterator>& rhs) {
+		return lhs.base() < rhs.base();
+	}
 
 	template <class Iterator>
 	bool operator>= (const reverse_iterator<Iterator>& lhs,
-					 const reverse_iterator<Iterator>& rhs);
+					 const reverse_iterator<Iterator>& rhs) {
+		return lhs.base() <= rhs.base();
+	}
 }
 
 #endif //FT_CONTAINERS_REVERSE_ITER_HPP

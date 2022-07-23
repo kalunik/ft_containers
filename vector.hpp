@@ -8,6 +8,7 @@
 #include <memory>
 #include <stdexcept>
 #include "iterators/random_access_iterator.hpp"
+#include "iterators/reverse_iter.hpp"
 
 namespace ft{
 	template<class T, class Allocator = std::allocator<T> >
@@ -18,14 +19,14 @@ namespace ft{
 		typedef T											value_type;
 		typedef typename allocator_type::reference			reference;
 		typedef typename allocator_type::const_reference	const_reference;
-		typedef RandomIter<T>								iterator;
-		typedef RandomIter<const T>							const_iterator;
+		typedef ft::RandomIter<T>								iterator;
+		typedef ft::RandomIter<const T>							const_iterator;
 		typedef typename allocator_type::size_type			size_type;
 		typedef typename allocator_type::difference_type	difference_type;
 		typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer		const_pointer;
-//		typedef std::reverse_iterator<iterator>          reverse_iterator;
-//		typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator>				reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 	protected:
 		pointer			_data;
@@ -110,8 +111,25 @@ namespace ft{
 		const_iterator end() const {
 			return const_iterator(_data + _size);
 		}
+		reverse_iterator rbegin() {
+			return reverse_iterator(end());
+		}
+		const_reverse_iterator rbegin() const {
+			return const_reverse_iterator(end());
+		}
+		reverse_iterator rend() {
+			return reverse_iterator(begin());
+		}
+		const_reverse_iterator rend() const {
+			return const_reverse_iterator(begin());
+		}
 
 		/* * MODIFIERS */
+//		template <class InputIterator>
+//		void assign (InputIterator first, InputIterator last)
+		void assign (size_type n, const value_type& val) {
+			
+		}
 		void push_back(const value_type& val) {
 			if (_size >= _capacity)
 				reserve(_capacity + _capacity / 2);
@@ -153,7 +171,6 @@ namespace ft{
 			_capacity = n;
 		}
 		size_type capacity() const { return _capacity; }
-
 
 	};
 }
